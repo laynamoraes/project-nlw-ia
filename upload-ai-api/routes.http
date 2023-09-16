@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST  http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="audio-focus.mp3"
+Content-Type: audio/mpeg
+
+< ./audio-focus.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 
+
+# @name create-transcription
+POST http://localhost:3333/videos/bc756b8a-35b9-476a-8b59-21ade13fed30/transcription
+Content-Type: application/json
+
+{
+  "prompt": "marketing digital, focus company"
+}
+
+### 
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "bc756b8a-35b9-476a-8b59-21ade13fed30",
+  "temperature": 0.5,
+  "template": "Gere um resumo sucinto da transcrição do vídeo informado a seguir: '''{transcription}''' "
+}
